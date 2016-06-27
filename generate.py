@@ -24,48 +24,37 @@ BT
 ET
 """
 
-annot = PdfDict()
-annot.Type = PdfName.Annot
-annot.Subtype = PdfName.Widget
-annot.FT = PdfName.Tx
-annot.Ff = 2
-annot.Rect = PdfArray([250, 500, 400, 535])
-annot.T = PdfString.encode('TextBox01')
-annot.V = PdfString.encode('wow weird. click me and type!!')
+def makeField(name, rect):
+    annot = PdfDict()
+    annot.Type = PdfName.Annot
+    annot.Subtype = PdfName.Widget
+    annot.FT = PdfName.Tx
+    annot.Ff = 2 | (1 << 12)
+    annot.Rect = PdfArray(rect)
+    annot.T = PdfString.encode(name)
+    annot.V = PdfString.encode("f\nwtf")
 
-annot.AP = PdfDict()
-ap = annot.AP.N = PdfDict()
-ap.Type = PdfName.XObject
-ap.Subtype = PdfName.Form
-ap.FormType = 1
-ap.BBox = PdfArray([0.0, 0.0, 150.0, 32.0])
-ap.Matrix = PdfArray([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])
-ap.Length = 61
-ap.stream = """
-0.75 g
-0.0 0.0 150 32 re f
-0.00 G
-0.5 0.5 149 31 re s
-"""
+    annot.AP = PdfDict()
+    ap = annot.AP.N = PdfDict()
+    ap.Type = PdfName.XObject
+    ap.Subtype = PdfName.Form
+    ap.FormType = 1
 
-page.Annots = PdfArray([annot])
+    return annot
+
+annots = [makeField('hello',[0, 0, 160*2, 144*2])]
+
+page.Annots = PdfArray(annots)
 
 page.AA = PdfDict()
 page.AA.O = PdfDict()
 page.AA.O.S = PdfName.JavaScript
 page.AA.O.JS = """
-global.origX = this.getField("TextBox01").rect[0];
-global.vx = -5;
+/*global.help = 0;
 app.setInterval('(' + (function() {
   var field = this.getField("TextBox01");
-  field.rect = [field.rect[0] + global.vx, field.rect[1], field.rect[2], field.rect[3]];
-  if (field.rect[0] < 5) {
-    global.vx = 5;
-  } 
-  if (field.rect[0] > global.origX) {
-    global.vx = -5;
-  }
-}).toString() + ')()', 20)
+  field.value = 'hi' + 'there';
+}).toString() + ')()', 20)*/
 """
 
 
