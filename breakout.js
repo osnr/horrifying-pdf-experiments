@@ -86,13 +86,12 @@ function drawBricks() {
   // }
 }
 
+var scoreField = this.getField('score');
 function drawScore() {
-  var scoreField = this.getField('score');
   scoreField.value = "Score: " + score;
 }
-
+var livesField = this.getField('lives');
 function drawLives() {
-  var livesField = this.getField('lives');
   livesField.value = 'Lives: ' + lives;
 }
 
@@ -113,7 +112,7 @@ function draw() {
     dy = -dy;
 
   } else if (y + dy < CANVAS_BOTTOM + PADDLE_HEIGHT) {
-    if (x > paddleX() && x < paddleX() + PADDLE_WIDTH) {
+    if (x + BALL_WIDTH > paddleX() && x < paddleX() + PADDLE_WIDTH) {
       dy = -dy;
 
     } else {
