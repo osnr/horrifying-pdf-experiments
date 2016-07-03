@@ -41,7 +41,7 @@ def make_field(name, x, y, width, height, r, g, b, value=""):
 
     return annot
 
-def generate_pdf(fname, fields, script):
+def make_pdf(fields, script):
     page = PdfDict()
     page.Type = PdfName.Page
 
@@ -77,7 +77,7 @@ try {
 
     out = PdfWriter()
     out.addpage(page)
-    out.write(fname)
+    return out
 
 if len(sys.argv) > 1:
     js_file = open(sys.argv[1], 'r')
@@ -90,4 +90,4 @@ if len(sys.argv) > 1:
         fields.append(make_field(*params))
 
     js_file.seek(0)
-    generate_pdf('result.pdf', fields, js_file.read())
+    generate_pdf(fields, js_file.read()).write('result.pdf')

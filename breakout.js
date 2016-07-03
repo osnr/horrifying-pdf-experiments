@@ -1,3 +1,6 @@
+// Core Breakout game. Logic derived from:
+// https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript/Finishing_up
+
 global.mouseX = CANVAS_WIDTH/2;
 
 var score = 0;
@@ -9,42 +12,39 @@ var y = 430;
 var dx = 2;
 var dy = -2;
 
-var brickRowCount = 5;
-var brickColumnCount = 3;
-var brickWidth = 75;
-var brickHeight = 20;
-var brickPadding = 10;
-var brickOffsetTop = 30;
-var brickOffsetLeft = 30;
-
 var score = 0;
 var lives = 3;
 
 var bricks = [];
-for(c=0; c<brickColumnCount; c++) {
+for (var c = 0; c < BRICK_COLUMN_COUNT; c++) {
   bricks[c] = [];
-  for(r=0; r<brickRowCount; r++) {
-    bricks[c][r] = { x: 0, y: 0, status: 1 };
+  for (var r = 0; r < BRICK_ROW_COUNT; r++) {
+    bricks[c][r] = {
+      x: r*(BRICK_WIDTH + BRICK_PADDING) + BRICK_OFFSET_LEFT,
+      y: c*(BRICK_HEIGHT + BRICK_PADDING) + BRICK_OFFSET_BOTTOM,
+      status: 1,
+      field: this.getField('brick' + c + ',' + r)
+    };
   }
 }
 
 function collisionDetection() {
-  // for(c=0; c<brickColumnCount; c++) {
-  //   for(r=0; r<brickRowCount; r++) {
-  //     var b = bricks[c][r];
-  //     if(b.status == 1) {
-  //       if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-  //         dy = -dy;
-  //         b.status = 0;
-  //         score++;
-  //         if(score == brickRowCount*brickColumnCount) {
-  //           alert("YOU WIN, CONGRATS!");
-  //           document.location.reload();
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+  for (var c = 0; c < BRICK_COLUMN_COUNT; c++) {
+    for (var r = 0; r < BRICK_ROW_COUNT; r++) {
+      var b = bricks[c][r];
+      if (b.status != 1) continue;
+
+      if (x > b.x && x < b.x + BRICK_WIDTH &&
+          y > b.y && y < b.y + BRICK_HEIGHT) {
+        dy = -dy;
+        b.status = 0;
+        score++;
+        if (score == BRICK_ROW_COUNT * BRICK_COLUMN_COUNT) {
+          app.alert("YOU WIN, CONGRATS!");
+        }
+      }
+    }
+  }
 }
 
 var ball = this.getField('ball');
@@ -69,21 +69,15 @@ function drawPaddle() {
 }
 
 function drawBricks() {
-  // for(c=0; c<brickColumnCount; c++) {
-  //   for(r=0; r<brickRowCount; r++) {
-  //     if(bricks[c][r].status == 1) {
-  //       var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
-  //       var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
-  //       bricks[c][r].x = brickX;
-  //       bricks[c][r].y = brickY;
-  //       ctx.beginPath();
-  //       ctx.rect(brickX, brickY, brickWidth, brickHeight);
-  //       ctx.fillStyle = "#0095DD";
-  //       ctx.fill();
-  //       ctx.closePath();
-  //     }
-  //   }
-  // }
+  for (var c = 0; c < BRICK_COLUMN_COUNT; c++) {
+    for (var r = 0; r < BRICK_ROW_COUNT; r++) {
+      if (bricks[c][r].status == 1) {
+        bricks[c][r].field.display = display.visible;
+      } else {
+        bricks[c][r].field.display = display.hidden;
+      }
+    }
+  }
 }
 
 var scoreField = this.getField('score');
@@ -111,7 +105,7 @@ function draw() {
   if (y + dy > CANVAS_BOTTOM + CANVAS_HEIGHT - BALL_HEIGHT) {
     dy = -dy;
 
-  } else if (y + dy < CANVAS_BOTTOM + PADDLE_HEIGHT) {
+  } else if (y + dy < PADDLE_OFFSET_BOTTOM + PADDLE_HEIGHT) {
     if (x + BALL_WIDTH > paddleX() && x < paddleX() + PADDLE_WIDTH) {
       dy = -dy;
 
