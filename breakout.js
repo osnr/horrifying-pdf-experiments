@@ -2,6 +2,7 @@
 // https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript/Finishing_up
 
 global.mouseX = CANVAS_WIDTH/2;
+global.paused = false;
 
 var score = 0;
 var lives = 3;
@@ -95,7 +96,16 @@ function drawLives() {
   livesField.value = 'Lives: ' + lives;
 }
 
+var countdownField = this.getField('countdown');
 function draw() {
+  if (global.paused) {
+    countdownField.display = display.visible;
+    countdownField.value = 'Paused';
+    return;
+  }
+
+  countdownField.display = display.hidden;
+
   drawBricks();
   drawBall();
   drawPaddle();
@@ -150,16 +160,14 @@ function start() {
 }
 
 var count = 3;
-var countdownField = this.getField('countdown');
 function countdown() {
   countdownField.value = count.toString();
 
   count--;
   if (count == -1) {
-    countdownField.display = display.hidden;
-    app.clearInterval(countdownInterval);
     start();
+  } else {
+    app.setTimeOut('countdown()', 1000);
   }
 }
-var countdownInterval = app.setInterval('countdown()', 1000);
 countdown();

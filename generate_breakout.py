@@ -86,6 +86,9 @@ for x in range(0, CANVAS_WIDTH):
     band.AA.E = make_js_action("""
     global.mouseX = %d;
     """ % x)
+    band.AA.Fo = make_js_action("""
+    global.paused = !global.paused;
+    """)
 
     fields.append(band)
 
