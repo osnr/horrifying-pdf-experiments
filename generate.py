@@ -58,7 +58,6 @@ def make_pdf(fields, script):
     page.Contents.stream = """
 BT
 /F1 24 Tf
-200 700 Td (Open me in Chrome!) Tj
 ET
     """
 

@@ -10,23 +10,26 @@ var x = CANVAS_WIDTH/2;
 var y = 430;
 
 var dx = 2;
-var dy = -2;
+var dy = 2;
 
 var score = 0;
 var lives = 3;
 
 var bricks = [];
-for (var c = 0; c < BRICK_COLUMN_COUNT; c++) {
-  bricks[c] = [];
-  for (var r = 0; r < BRICK_ROW_COUNT; r++) {
-    bricks[c][r] = {
-      x: r*(BRICK_WIDTH + BRICK_PADDING) + BRICK_OFFSET_LEFT,
-      y: c*(BRICK_HEIGHT + BRICK_PADDING) + BRICK_OFFSET_BOTTOM,
-      status: 1,
-      field: this.getField('brick' + c + ',' + r)
-    };
+function initBricks() {
+  for (var c = 0; c < BRICK_COLUMN_COUNT; c++) {
+    bricks[c] = [];
+    for (var r = 0; r < BRICK_ROW_COUNT; r++) {
+      bricks[c][r] = {
+        x: r*(BRICK_WIDTH + BRICK_PADDING) + BRICK_OFFSET_LEFT,
+        y: c*(BRICK_HEIGHT + BRICK_PADDING) + BRICK_OFFSET_BOTTOM,
+        status: 1,
+        field: this.getField('brick' + c + ',' + r)
+      };
+    }
   }
 }
+initBricks();
 
 function collisionDetection() {
   for (var c = 0; c < BRICK_COLUMN_COUNT; c++) {
@@ -41,6 +44,9 @@ function collisionDetection() {
         score++;
         if (score == BRICK_ROW_COUNT * BRICK_COLUMN_COUNT) {
           app.alert("YOU WIN, CONGRATS!");
+          dx *= 1.1;
+          dy *= 1.1;
+          initBricks();
         }
       }
     }
@@ -128,7 +134,7 @@ function draw() {
 }
 
 var whole = this.getField('whole');
-function testDraw() {
+function wrappedDraw() {
   try {
     whole.display = display.visible;
     draw();
@@ -138,4 +144,22 @@ function testDraw() {
     app.alert(e.toString())
   }
 }
-app.setInterval('testDraw()', 15);
+
+function start() {
+  app.setInterval('wrappedDraw()', 15);
+}
+
+var count = 3;
+var countdownField = this.getField('countdown');
+function countdown() {
+  countdownField.value = count.toString();
+
+  count--;
+  if (count == -1) {
+    countdownField.display = display.hidden;
+    app.clearInterval(countdownInterval);
+    start();
+  }
+}
+var countdownInterval = app.setInterval('countdown()', 1000);
+countdown();

@@ -92,7 +92,14 @@ for x in range(0, CANVAS_WIDTH):
 fields.append(make_field(
     'whole', x=0, y=CANVAS_BOTTOM,
     width=CANVAS_WIDTH, height=CANVAS_HEIGHT,
-    r=0, g=1, b=1
+    r=1, g=1, b=1
+))
+
+fields.append(make_field(
+    'countdown', x=280, y=600,
+    width=300, height=100,
+    r=1, g=1, b=1,
+    value='Open in Chrome!'
 ))
 
 with open('breakout.js', 'r') as js_file:
