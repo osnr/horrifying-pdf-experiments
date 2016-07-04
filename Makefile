@@ -1,3 +1,5 @@
+all: breakout.pdf
+
 install-deps:
 	sudo pip install pdfrw
 
