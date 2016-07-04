@@ -3,20 +3,20 @@
 
 // Collision detection is not so great.
 
-var score = 0;
-var lives = 3;
+var score;
+var lives;
 
-var x = CANVAS_WIDTH/2;
-var y = 430;
+var x;
+var y;
 
-var dx = 2;
-var dy = 2;
+var dx;
+var dy;
 
-var score = 0;
-var lives = 3;
+var score;
+var lives;
 
-var bands = [];
-var bricks = [];
+var bands;
+var bricks;
 
 function init() {
   // Page open event (and so this script file) might get called again,
@@ -24,6 +24,21 @@ function init() {
   if (global.initialized) return;
   global.initialized = true;
 
+  score = 0;
+  lives = 3;
+
+  x = CANVAS_WIDTH/2;
+  y = 430;
+
+  dx = 2;
+  dy = 2;
+
+  score = 0;
+  lives = 3;
+
+  bands = [];
+  bricks = [];
+  
   global.count = 3;
   
   global.mouseX = CANVAS_WIDTH/2;
@@ -42,7 +57,6 @@ function init() {
   countdown();
 }
 
-var bricks = [];
 function initBricks() {
   for (var c = 0; c < BRICK_COLUMN_COUNT; c++) {
     bricks[c] = [];

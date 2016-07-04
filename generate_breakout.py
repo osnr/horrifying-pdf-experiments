@@ -1,4 +1,4 @@
-from pdfrw import PdfWriter
+from pdfrw import PdfWriter, PdfReader
 from pdfrw.objects.pdfname import PdfName
 from pdfrw.objects.pdfstring import PdfString
 from pdfrw.objects.pdfdict import PdfDict
@@ -32,6 +32,9 @@ BRICK_OFFSET_LEFT = 100
 # Every object we move, toggle on and off, or take events from must be
 # an input widget for this to work in Chrome. In this case, we just
 # use text fields.
+
+# Chrome also doesn't implement `addField`, so we can't dynamically
+# make these at runtime; we have to do it now at PDF creation time.
 
 fields = []
 
@@ -117,40 +120,43 @@ fields.append(make_field(
 with open('breakout.js', 'r') as js_file:
     script = js_file.read()
 
-    # Share our constants with the JS script.
-    page = make_page(fields, """
+# Share our constants with the JS script.
+page = make_page(fields, """
 
-    var CANVAS_WIDTH = %(CANVAS_WIDTH)s;
-    var CANVAS_HEIGHT = %(CANVAS_HEIGHT)s;
-    var CANVAS_BOTTOM = %(CANVAS_BOTTOM)s;
+var CANVAS_WIDTH = %(CANVAS_WIDTH)s;
+var CANVAS_HEIGHT = %(CANVAS_HEIGHT)s;
+var CANVAS_BOTTOM = %(CANVAS_BOTTOM)s;
 
-    var PADDLE_WIDTH = %(PADDLE_WIDTH)s;
-    var PADDLE_HEIGHT = %(PADDLE_HEIGHT)s;
-    var PADDLE_OFFSET_BOTTOM = %(PADDLE_OFFSET_BOTTOM)s;
+var PADDLE_WIDTH = %(PADDLE_WIDTH)s;
+var PADDLE_HEIGHT = %(PADDLE_HEIGHT)s;
+var PADDLE_OFFSET_BOTTOM = %(PADDLE_OFFSET_BOTTOM)s;
 
-    var BALL_WIDTH = %(BALL_WIDTH)s;
-    var BALL_HEIGHT = %(BALL_HEIGHT)s;
+var BALL_WIDTH = %(BALL_WIDTH)s;
+var BALL_HEIGHT = %(BALL_HEIGHT)s;
 
-    var BRICK_ROW_COUNT = %(BRICK_ROW_COUNT)s;
-    var BRICK_COLUMN_COUNT = %(BRICK_COLUMN_COUNT)s;
-    var BRICK_WIDTH = %(BRICK_WIDTH)s;
-    var BRICK_HEIGHT = %(BRICK_HEIGHT)s;
-    var BRICK_PADDING = %(BRICK_PADDING)s;
+var BRICK_ROW_COUNT = %(BRICK_ROW_COUNT)s;
+var BRICK_COLUMN_COUNT = %(BRICK_COLUMN_COUNT)s;
+var BRICK_WIDTH = %(BRICK_WIDTH)s;
+var BRICK_HEIGHT = %(BRICK_HEIGHT)s;
+var BRICK_PADDING = %(BRICK_PADDING)s;
 
-    var BRICK_OFFSET_BOTTOM = %(BRICK_OFFSET_BOTTOM)s;
-    var BRICK_OFFSET_LEFT = %(BRICK_OFFSET_LEFT)s;
+var BRICK_OFFSET_BOTTOM = %(BRICK_OFFSET_BOTTOM)s;
+var BRICK_OFFSET_LEFT = %(BRICK_OFFSET_LEFT)s;
 
-    %(script)s
+%(script)s
 
-    """ % locals())
+""" % locals())
 
-    page.Contents.stream = """
-    BT
-    /F1 24 Tf
-    150 300 Td (Move your mouse down here!) Tj
-    ET
-    """
+page.Contents.stream = """
+BT
+/F1 24 Tf
+150 300 Td (Move your mouse down here!) Tj
+ET
+"""
 
-    out = PdfWriter()
-    out.addpage(page)
-    out.write('breakout.pdf')
+readme = PdfReader('README.pdf')
+
+out = PdfWriter()
+out.addpage(page)
+out.addpage(readme.pages[0])
+out.write('breakout.pdf')
