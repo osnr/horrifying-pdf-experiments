@@ -1,5 +1,9 @@
 # [horrifying-pdf-experiments](https://github.com/osnr/horrifying-pdf-experiments)
 
+If you're not viewing it right now, try the
+[breakout.pdf file](https://rawgit.com/osnr/horrifying-pdf-experiments/master/breakout.pdf)
+in Chrome.
+
 Like many of you, I always thought of PDF as basically a benign
 format, where the author lays out some text and graphics, and then the
 PDF sits in front of the reader and doesn't do anything. I heard
@@ -100,6 +104,7 @@ through a form field.
 
 [Emscripten]: https://kripken.github.io/emscripten-site/
 
+
 [^ps]: In fact, I got interested in PDF a couple weeks ago because I'd
 been reading these random Don Hopkins posts about
 [NeWS](https://en.wikipedia.org/wiki/NeWS), the system supposedly like
@@ -112,6 +117,13 @@ AJAX but done in the 80s, and so I got interested in
     programming language) and too hard to analyze and reason
     about. PDF remains a big improvement in that sense, I think, but
     it's still funny how it's grown all these features.
+
+    It's also really interesting: like any long-lived digital format
+    (I have a thing for the FAT filesystem, personally), PDF is itself
+    a kind of historical document. It tells you about what people
+    wanted to do. You can see generations of engineers, adding things
+    that they needed in their time, while trying not to break anything
+    already out there.
 
 [^situation]: I'm not sure why Chrome even bothered to expose the JS
     runtime. They
@@ -126,10 +138,7 @@ AJAX but done in the 80s, and so I got interested in
 
 ### Breakout
 
-So what can we do with the API surface that Chrome gives us? Well, if
-you're not reading it right now, try the
-[breakout.pdf file](https://rawgit.com/osnr/horrifying-pdf-experiments/master/breakout.pdf)
-in Chrome.
+So what can we do with the API surface that Chrome gives us?
 
 I'm sorry, by the way, that the collision detection is not great. (Not
 really the point, though!) I ripped off most of the game from
