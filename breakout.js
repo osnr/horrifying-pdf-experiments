@@ -40,7 +40,7 @@ function init() {
   bricks = [];
   
   global.count = 3;
-  
+
   global.mouseX = CANVAS_WIDTH/2;
   global.paused = false;
 
@@ -49,9 +49,9 @@ function init() {
   // Hide all the mouse-X detection bands until the game starts.
   // The user can then see the callout telling them to move their mouse
   // during the countdown.
-  for (var x = 0; x < CANVAS_WIDTH; x++) {
-    bands[x] = this.getField('band' + x);
-    bands[x].display = display.hidden;
+  for (var bx = 0; bx < CANVAS_WIDTH; bx++) {
+    bands[bx] = this.getField('band' + bx);
+    bands[bx].display = display.hidden;
   }
 
   countdown();
@@ -153,7 +153,7 @@ function draw() {
   drawPaddle();
   drawScore();
   drawLives();
-  
+
   collisionDetection();
 
   if (x + dx > CANVAS_WIDTH - BALL_WIDTH || x + dx < 0) {
@@ -202,8 +202,8 @@ function wrappedDraw() {
 }
 
 function start() {
-  for (var x = 0; x < CANVAS_WIDTH; x++) {
-      bands[x].display = display.visible;
+  for (var bx = 0; bx < CANVAS_WIDTH; bx++) {
+      bands[bx].display = display.visible;
   }
   // TODO Some kind of speed regulation.
   app.setInterval('wrappedDraw()', 15);
