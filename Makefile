@@ -10,7 +10,8 @@ run-breakout.pdf: breakout.pdf
 	"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" breakout.pdf
 
 README.pdf: README.md
-	pandoc README.md -o README.pdf
+	pandoc README.md --variable urlcolor=cyan -o README.pdf
 
 clean:
-	rm breakout.pdf
+	rm -f breakout.pdf
+	rm -f README.pdf
