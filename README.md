@@ -1,4 +1,4 @@
-# horrifying-pdf-experiments
+# [horrifying-pdf-experiments](https://github.com/osnr/horrifying-pdf-experiments)
 
 Like many of you, I always thought of PDF as basically a benign
 format, where the author lays out some text and graphics, and then the
@@ -193,7 +193,7 @@ moves.
     FORTRAN. You have to declare all your variables upfront so the
     compiler can statically allocate them.
 
-### Useful resources for doing things like this
+### Useful resources
 
 - [PDF Reference, sixth edition][spec]
 - [JavaScript for Acrobat API Reference][acrobatjs]
@@ -201,7 +201,7 @@ moves.
   [Minimal PDF](https://brendanzagaeski.appspot.com/0004.html) and
   [Hand-coded PDF tutorial](https://brendanzagaeski.appspot.com/0005.html)
 - [PDF Inside and Out](https://blogs.adobe.com/pdfdevjunkie/files/pdfdevjunkie/PDF_Inside_and_Out.pdf)
-  has excellent examples
+  has excellent examples.
 - The [pdfrw Python library](https://github.com/pmaupin/pdfrw) is at
   exactly the right level of abstraction for this kind of work. A lot
   of libraries are too high-level and expose just graphics

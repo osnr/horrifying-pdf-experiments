@@ -158,5 +158,6 @@ readme = PdfReader('README.pdf')
 
 out = PdfWriter()
 out.addpage(page)
-out.addpage(readme.pages[0])
+for readme_page in readme.pages:
+    out.addpage(readme_page)
 out.write('breakout.pdf')
