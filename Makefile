@@ -8,3 +8,6 @@ breakout.pdf:
 
 run-breakout.pdf: breakout.pdf
 	"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" breakout.pdf
+
+clean:
+	rm breakout.pdf
