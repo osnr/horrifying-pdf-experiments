@@ -10,7 +10,7 @@ PDF sits in front of the reader and doesn't do anything. I heard
 offhand about vulnerabilities in Adobe Reader years ago, but didn't
 think too much about why or how they might exist.
 
-That was why Adobe made PDF at first[^ps], but I think we've
+That _was_ why Adobe made PDF at first[^ps], but I think we've
 established that it's not quite true anymore. The
 [1,310-page PDF specification][spec] (actually a really clear and
 interesting read) specifies a bizarre amount of functionality,
@@ -105,31 +105,29 @@ through a form field.
 [Emscripten]: https://kripken.github.io/emscripten-site/
 
 
-[^ps]: In fact, I got interested in PDF a couple weeks ago because I'd
-been reading these random Don Hopkins posts about
+[^ps]: In fact, I got interested in PDF a couple weeks ago because of
+[PostScript](https://en.wikipedia.org/wiki/PostScript); I'd been reading these random Don Hopkins posts about
 [NeWS](https://en.wikipedia.org/wiki/NeWS), the system supposedly like
-AJAX but done in the 80s, and so I got interested in
-[PostScript](https://en.wikipedia.org/wiki/PostScript).
+AJAX but done in the 80s on PostScript.
 
     Ironically, PDF was a
     [reaction](https://en.wikipedia.org/wiki/Portable_Document_Format#PostScript)
     to PostScript, which was too expressive (being a full
     programming language) and too hard to analyze and reason
-    about. PDF remains a big improvement in that sense, I think, but
+    about. PDF remains a big improvement there, I think, but
     it's still funny how it's grown all these features.
 
     It's also really interesting: like any long-lived digital format
     (I have a thing for the FAT filesystem, personally), PDF is itself
-    a kind of historical document. It tells you about what people
-    wanted to do. You can see generations of engineers, adding things
-    that they needed in their time, while trying not to break anything
-    already out there.
+    a kind of historical document. You can see generations of
+    engineers, adding things that they needed in their time, while
+    trying not to break anything already out there.
 
 [^situation]: I'm not sure why Chrome even bothered to expose the JS
     runtime. They
     [took the PDF reader code from Foxit](https://plus.google.com/+FrancoisBeaufort/posts/9wwSiWDDKKP),
-    so maybe Foxit had some particular government or enterprise client
-    who was using JavaScript form validation?
+    so maybe Foxit had some particular client who relied on JavaScript
+    form validation?
 
 [^es6]: Chrome also uses the same runtime it does in the browser, even
     though it doesn't expose any browser APIs. That means you can use
@@ -176,16 +174,14 @@ which emits a bunch of text fields upfront, including game elements:
 But we also do a few hacks here to get the game to work properly.
 
 First, we emit a thin, long 'band' text field for each column of the
-lower half of the screen. These bands get a mouse-enter event whenever
+lower half of the screen. Some band gets a mouse-enter event whenever
 you move your mouse along the x-axis, so the breakout paddle can move
-as you move your mouse. (It would be possible to do keyboard control
-too, I think; you could set a keystroke trigger script on a widget or
-on the page.)
+as you move your mouse.
 
 And second, we emit a field called 'whole' which covers the whole top
 half of the screen. Chrome doesn't expect the PDF display to change,
 so if you move fields around in JS, you get pretty bad artifacts. This
-'whole' field solves that problem when we flicker it on and off during
+'whole' field solves that problem when we toggle it on and off during
 frame rendering. That trick seems to force Chrome to clean out the
 artifacts.
 
