@@ -1,9 +1,6 @@
 // Core Breakout game. Logic derived from:
 // https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript/Finishing_up
 
-global.mouseX = CANVAS_WIDTH/2;
-global.paused = false;
-
 var score = 0;
 var lives = 3;
 
@@ -15,6 +12,28 @@ var dy = 2;
 
 var score = 0;
 var lives = 3;
+
+var bands = [];
+var bricks = [];
+
+function init() {
+  if (global.initialized) return;
+  global.initialized = true;
+
+  global.count = 3;
+  
+  global.mouseX = CANVAS_WIDTH/2;
+  global.paused = false;
+
+  initBricks();
+
+  for (var x = 0; x < CANVAS_WIDTH; x++) {
+    bands[x] = this.getField('band' + x);
+    bands[x].display = display.hidden;
+  }
+
+  countdown();
+}
 
 var bricks = [];
 function initBricks() {
@@ -30,7 +49,6 @@ function initBricks() {
     }
   }
 }
-initBricks();
 
 function collisionDetection() {
   for (var c = 0; c < BRICK_COLUMN_COUNT; c++) {
@@ -156,18 +174,21 @@ function wrappedDraw() {
 }
 
 function start() {
+  for (var x = 0; x < CANVAS_WIDTH; x++) {
+      bands[x].display = display.visible;
+  }
   app.setInterval('wrappedDraw()', 15);
 }
 
-var count = 3;
 function countdown() {
-  countdownField.value = count.toString();
+  countdownField.value = global.count.toString();
 
-  count--;
-  if (count == -1) {
+  global.count--;
+  if (global.count < 0) {
     start();
   } else {
     app.setTimeOut('countdown()', 1000);
   }
 }
-countdown();
+
+init();

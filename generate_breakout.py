@@ -1,11 +1,12 @@
 # Run `python generate_breakout.py` to generate.
 
+from pdfrw import PdfWriter
 from pdfrw.objects.pdfname import PdfName
 from pdfrw.objects.pdfstring import PdfString
 from pdfrw.objects.pdfdict import PdfDict
 from pdfrw.objects.pdfarray import PdfArray
 
-from generate import make_field, make_js_action, make_pdf
+from generate import make_field, make_js_action, make_page
 
 PAGE_WIDTH = 612
 PAGE_HEIGHT = 792
@@ -87,7 +88,7 @@ for x in range(0, CANVAS_WIDTH):
     global.mouseX = %d;
     """ % x)
     band.AA.Fo = make_js_action("""
-    global.paused = !global.paused;
+    if (global.count < 0) global.paused = !global.paused;
     """)
 
     fields.append(band)
@@ -108,7 +109,7 @@ fields.append(make_field(
 with open('breakout.js', 'r') as js_file:
     script = js_file.read()
 
-    out = make_pdf(fields, """
+    page = make_page(fields, """
 
     var CANVAS_WIDTH = %(CANVAS_WIDTH)s;
     var CANVAS_HEIGHT = %(CANVAS_HEIGHT)s;
@@ -134,4 +135,13 @@ with open('breakout.js', 'r') as js_file:
 
     """ % locals())
 
+    page.Contents.stream = """
+    BT
+    /F1 24 Tf
+    150 300 Td (Move your mouse down here!) Tj
+    ET
+    """
+
+    out = PdfWriter()
+    out.addpage(page)
     out.write('breakout.pdf')
