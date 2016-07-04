@@ -1,5 +1,3 @@
-# Run `python generate_breakout.py` to generate.
-
 from pdfrw import PdfWriter
 from pdfrw.objects.pdfname import PdfName
 from pdfrw.objects.pdfstring import PdfString
@@ -30,6 +28,10 @@ BRICK_PADDING = 10
 
 BRICK_OFFSET_BOTTOM = CANVAS_BOTTOM + 120
 BRICK_OFFSET_LEFT = 100
+
+# Every object we move, toggle on and off, or take events from must be
+# an input widget for this to work in Chrome. In this case, we just
+# use text fields.
 
 fields = []
 
@@ -76,6 +78,10 @@ lives = make_field(
 )
 fields.append(lives)
 
+# A weird trick: Chrome PDFium doesn't expose mouse coordinates in its
+# subset of PDF API, so there's no way to get a precise mouse X. So I
+# create a tall text area at each pixel column and then just track the
+# mouse-enter events on all the columns.
 for x in range(0, CANVAS_WIDTH):
     band = make_field(
         'band' + str(x),
@@ -93,12 +99,14 @@ for x in range(0, CANVAS_WIDTH):
 
     fields.append(band)
 
+# See `breakout.js`: used to force rendering cleanup in Chrome.
 fields.append(make_field(
     'whole', x=0, y=CANVAS_BOTTOM,
     width=CANVAS_WIDTH, height=CANVAS_HEIGHT,
     r=1, g=1, b=1
 ))
 
+# User won't see this default value; it gets set in JS.
 fields.append(make_field(
     'countdown', x=280, y=600,
     width=300, height=100,
@@ -109,6 +117,7 @@ fields.append(make_field(
 with open('breakout.js', 'r') as js_file:
     script = js_file.read()
 
+    # Share our constants with the JS script.
     page = make_page(fields, """
 
     var CANVAS_WIDTH = %(CANVAS_WIDTH)s;

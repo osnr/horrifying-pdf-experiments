@@ -23,6 +23,8 @@ def make_field(name, x, y, width, height, r, g, b, value=""):
     annot.T = PdfString.encode(name)
     annot.V = PdfString.encode(value)
 
+    # Default appearance stream: can be arbitrary PDF XObject or
+    # something. Very general.
     annot.AP = PdfDict()
 
     ap = annot.AP.N = PdfDict()
@@ -36,6 +38,16 @@ def make_field(name, x, y, width, height, r, g, b, value=""):
 0.0 0.0 %f %f re f
 """ % (r, g, b, width, height)
 
+    # It took me a while to figure this out. See PDF spec:
+    # https://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/pdf_reference_1-7.pdf#page=641
+
+    # Basically, the appearance stream we just specified doesn't
+    # follow the field rect if it gets changed in JS (at least not in
+    # Chrome).
+
+    # But this simple MK field here, with border/color
+    # characteristics, _does_ follow those movements and resizes, so
+    # we can get moving colored rectangles this way.
     annot.MK = PdfDict()
     annot.MK.BG = PdfArray([r, g, b])
 
@@ -64,6 +76,9 @@ ET
     annots = fields
 
     page.AA = PdfDict()
+    # You probably should just wrap each JS action with a try/catch,
+    # because Chrome does no error reporting or even logging otherwise;
+    # you just get a silent failure.
     page.AA.O = make_js_action("""
 try {
   %s

@@ -1,6 +1,8 @@
 // Core Breakout game. Logic derived from:
 // https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript/Finishing_up
 
+// Collision detection is not so great.
+
 var score = 0;
 var lives = 3;
 
@@ -17,6 +19,8 @@ var bands = [];
 var bricks = [];
 
 function init() {
+  // Page open event (and so this script file) might get called again,
+  // so head it off here.
   if (global.initialized) return;
   global.initialized = true;
 
@@ -27,6 +31,9 @@ function init() {
 
   initBricks();
 
+  // Hide all the mouse-X detection bands until the game starts.
+  // The user can then see the callout telling them to move their mouse
+  // during the countdown.
   for (var x = 0; x < CANVAS_WIDTH; x++) {
     bands[x] = this.getField('band' + x);
     bands[x].display = display.hidden;
@@ -74,6 +81,9 @@ function collisionDetection() {
 
 var ball = this.getField('ball');
 function drawBall() {
+  // Rect changes are almost the only changes you can carry out on a
+  // Field in Chrome's subset of PDF JS:
+  // https://pdfium.googlesource.com/pdfium/+/chromium/2524/fpdfsdk/src/javascript/Field.cpp#2356
   ball.rect = [
     x, y, x + BALL_WIDTH, y + BALL_HEIGHT
   ];
@@ -161,6 +171,10 @@ function draw() {
   y += dy;
 }
 
+// This 'whole' thing blanks out the whole screen while we render,
+// because Chrome doesn't expect us to actually move objects around,
+// so if you do it naively you get terrible artifacts. Breaks Acrobat,
+// though (or at least they're too slow for this to work nicely).
 var whole = this.getField('whole');
 function wrappedDraw() {
   try {
@@ -177,6 +191,7 @@ function start() {
   for (var x = 0; x < CANVAS_WIDTH; x++) {
       bands[x].display = display.visible;
   }
+  // TODO Some kind of speed regulation.
   app.setInterval('wrappedDraw()', 15);
 }
 
