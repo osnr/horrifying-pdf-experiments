@@ -151,6 +151,7 @@ page.Contents.stream = """
 BT
 /F1 24 Tf
 150 300 Td (Move your mouse down here!) Tj
+40 -100 Td (also, README below...) Tj
 ET
 """
 

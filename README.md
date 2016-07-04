@@ -140,8 +140,9 @@ AJAX but done in the 80s, and so I got interested in
 
 So what can we do with the API surface that Chrome gives us?
 
-I'm sorry, by the way, that the collision detection is not great. (Not
-really the point, though!) I ripped off most of the game from
+I'm sorry, by the way, that the collision detection is not great and
+the game speed is inconsistent. (Not really the point, though!) I
+ripped off most of the game from
 [a tutorial](https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript).
 
 The first user-visible I/O points I could find in Chrome's
