@@ -14,6 +14,7 @@ var dy;
 
 var bands;
 var bricks;
+var bricksRemaining;
 
 function init() {
   // Page open event (and so this script file) might get called again,
@@ -63,6 +64,7 @@ function initBricks() {
       };
     }
   }
+  bricksRemaining = BRICK_ROW_COUNT * BRICK_COLUMN_COUNT;
 }
 
 function collisionDetection() {
@@ -76,7 +78,8 @@ function collisionDetection() {
         dy = -dy;
         b.status = 0;
         score++;
-        if (score == BRICK_ROW_COUNT * BRICK_COLUMN_COUNT) {
+        bricksRemaining--;
+        if (bricksRemaining === 0) {
           app.alert("YOU WIN, CONGRATS!");
           dx *= 1.1;
           dy *= 1.1;
