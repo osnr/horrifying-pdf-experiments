@@ -167,14 +167,14 @@ function draw() {
     } else {
       lives--;
 
-      if (lives == 0) {
+      if (lives === 0) {
         app.alert("GAME OVER");
 
       } else {
         x = CANVAS_WIDTH / 2;
         y = CANVAS_BOTTOM + CANVAS_HEIGHT - 30;
-        dx = 2;
-        dy = -2;
+        if (dx < 0) dx = -dx;
+        if (dy > 0) dy = -dy;
       }
     }
   }
