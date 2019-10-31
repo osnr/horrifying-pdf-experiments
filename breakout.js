@@ -169,6 +169,14 @@ function draw() {
 
       if (lives === 0) {
         app.alert("GAME OVER");
+        score = 0;
+        lives = 3;
+        x = CANVAS_WIDTH/2;
+        y = 430;
+
+        dx = 2;
+        dy = 2;
+        initBricks();
 
       } else {
         x = CANVAS_WIDTH / 2;
