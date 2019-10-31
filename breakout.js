@@ -12,9 +12,6 @@ var y;
 var dx;
 var dy;
 
-var score;
-var lives;
-
 var bands;
 var bricks;
 
@@ -32,9 +29,6 @@ function init() {
 
   dx = 2;
   dy = 2;
-
-  score = 0;
-  lives = 3;
 
   bands = [];
   bricks = [];
