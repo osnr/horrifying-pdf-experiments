@@ -1,7 +1,7 @@
 # [horrifying-pdf-experiments](https://github.com/osnr/horrifying-pdf-experiments)
 
 If you're not viewing it right now, try the
-[breakout.pdf file](https://rawgit.com/osnr/horrifying-pdf-experiments/master/breakout.pdf)
+[breakout.pdf file](https://cdn.jsdelivr.net/gh/osnr/horrifying-pdf-experiments@master/breakout.pdf)
 in Chrome.
 
 Like many of you, I always thought of PDF as basically a benign
