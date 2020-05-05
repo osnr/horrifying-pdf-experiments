@@ -1,10 +1,10 @@
 all: breakout.pdf
 
 install-deps:
-	sudo pip install pdfrw
+	pip3 install pdfrw
 
 breakout.pdf: README.pdf generate_breakout.py breakout.js
-	python generate_breakout.py
+	python3 generate_breakout.py
 
 run-breakout.pdf: breakout.pdf
 	"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" breakout.pdf
