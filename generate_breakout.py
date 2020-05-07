@@ -38,6 +38,14 @@ BRICK_OFFSET_LEFT = 100
 
 fields = []
 
+# User won't see this default value; it gets set in JS.
+fields.append(make_field(
+    'countdown', x=280, y=650,
+    width=300, height=100,
+    r=1, g=1, b=1,
+    value='Open in Chrome!'
+))
+
 paddle = make_field(
     'paddle',
     x=(CANVAS_WIDTH - PADDLE_WIDTH)/2, y=PADDLE_OFFSET_BOTTOM,
@@ -107,14 +115,6 @@ fields.append(make_field(
     'whole', x=0, y=CANVAS_BOTTOM,
     width=CANVAS_WIDTH, height=CANVAS_HEIGHT,
     r=1, g=1, b=1
-))
-
-# User won't see this default value; it gets set in JS.
-fields.append(make_field(
-    'countdown', x=280, y=600,
-    width=300, height=100,
-    r=1, g=1, b=1,
-    value='Open in Chrome!'
 ))
 
 with open('breakout.js', 'r') as js_file:
