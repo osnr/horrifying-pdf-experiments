@@ -12,11 +12,9 @@ var y;
 var dx;
 var dy;
 
-var score;
-var lives;
-
 var bands;
 var bricks;
+var bricksRemaining;
 
 function init() {
   // Page open event (and so this script file) might get called again,
@@ -32,9 +30,6 @@ function init() {
 
   dx = 2;
   dy = 2;
-
-  score = 0;
-  lives = 3;
 
   bands = [];
   bricks = [];
@@ -69,6 +64,7 @@ function initBricks() {
       };
     }
   }
+  bricksRemaining = BRICK_ROW_COUNT * BRICK_COLUMN_COUNT;
 }
 
 function collisionDetection() {
@@ -82,7 +78,8 @@ function collisionDetection() {
         dy = -dy;
         b.status = 0;
         score++;
-        if (score == BRICK_ROW_COUNT * BRICK_COLUMN_COUNT) {
+        bricksRemaining--;
+        if (bricksRemaining === 0) {
           app.alert("YOU WIN, CONGRATS!");
           dx *= 1.1;
           dy *= 1.1;
@@ -170,14 +167,22 @@ function draw() {
     } else {
       lives--;
 
-      if (lives == 0) {
+      if (lives === 0) {
         app.alert("GAME OVER");
+        score = 0;
+        lives = 3;
+        x = CANVAS_WIDTH/2;
+        y = 430;
+
+        dx = 2;
+        dy = 2;
+        initBricks();
 
       } else {
         x = CANVAS_WIDTH / 2;
         y = CANVAS_BOTTOM + CANVAS_HEIGHT - 30;
-        dx = 2;
-        dy = -2;
+        if (dx < 0) dx = -dx;
+        if (dy > 0) dy = -dy;
       }
     }
   }
