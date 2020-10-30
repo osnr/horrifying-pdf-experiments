@@ -1,5 +1,10 @@
 # [horrifying-pdf-experiments](https://github.com/osnr/horrifying-pdf-experiments)
 
+***New**: For more details about this hack and how it works, check out
+[my talk](https://twitter.com/rsnous/status/1259614184897015808) at
+!!con 2020, ["Playing Breakout... inside a
+PDF!!"](https://www.youtube.com/watch?v=6rbJu10Telc)*
+
 If you're not viewing it right now, try the
 [breakout.pdf file](https://cdn.jsdelivr.net/gh/osnr/horrifying-pdf-experiments@master/breakout.pdf)
 in Chrome.
